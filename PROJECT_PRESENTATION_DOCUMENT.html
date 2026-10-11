@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DisasterShield – Comprehensive Project Presentation & Viva Document</title>
+  <style>
+    :root {
+      --primary: #e11d48;
+      --primary-dark: #be123c;
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --code-bg: #030712;
+      --cyan: #06b6d4;
+      --purple: #a855f7;
+      --amber: #f59e0b;
+      --emerald: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(225, 29, 72, 0.15);
+      color: #fda4af;
+      border: 1px solid rgba(225, 29, 72, 0.3);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0 3rem 0;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .summary-table th, .summary-table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .summary-table th {
+      background: rgba(31, 41, 55, 0.6);
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .member-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .member-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    .card-deepak::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+    .card-sahasthra::before { background: linear-gradient(90deg, #e11d48, #f59e0b); }
+    .card-nishanth::before { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+    .card-pritika::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+    .card-aaraadhyaa::before { background: linear-gradient(90deg, #f59e0b, #e11d48); }
+    .card-gautham::before { background: linear-gradient(90deg, #3b82f6, #10b981); }
+
+    .member-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 1rem;
+    }
+    .member-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .member-role {
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+    }
+    .files-badge {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin: 1.25rem 0 0.5rem 0;
+    }
+    ul {
+      margin-left: 1.25rem;
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+    }
+    li { margin-bottom: 0.4rem; }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.82rem;
+      color: #e5e7eb;
+      margin: 1rem 0;
+    }
+    .speech-box {
+      background: rgba(15, 23, 42, 0.7);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      margin-top: 1.25rem;
+    }
+    .speech-box strong {
+      font-style: normal;
+      color: #f43f5e;
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tips-section {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    @media print {
+      body { background: #fff; color: #000; padding: 1cm; }
+      .member-card { page-break-inside: avoid; border: 1px solid #ccc; background: #fff; color: #000; }
+      pre { background: #f8f8f8; color: #000; border: 1px solid #ddd; }
+      .speech-box { background: #f0f4f8; color: #000; border-left: 4px solid #333; }
+      .summary-table { border: 1px solid #ccc; }
+      .summary-table th { background: #eee; color: #000; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Official College Presentation & Viva Guide</span>
+      <h1>DisasterShield</h1>
+      <p class="subtitle">AI-Powered Disaster Response System — 6-Member Work Division, Technical Implementation & Viva Speaking Script</p>
+    </header>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Team Member</th>
+          <th>Role / Module</th>
+          <th>Source Code Files</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Deepak Prajapati</strong> (Lead)</td>
+          <td>Database Architecture & Offline Storage Engine</td>
+          <td><code>src/services/firebase.js</code>, <code>storageHelper.js</code></td>
+        </tr>
+        <tr>
+          <td><strong>2. Sahasthra</strong></td>
+          <td>Tactical Command Center & GIS Hazard Mapping</td>
+          <td><code>src/pages/DashboardPage.jsx</code>, <code>DisasterMap.jsx</code></td>
+        </tr>
+        <tr>
+          <td><strong>3. Nishanth</strong></td>
+          <td>IoT Sensor Telemetry Grid & Open-Meteo REST APIs</td>
+          <td><code>src/services/sensorService.js</code>, <code>SensorMonitoringPage.jsx</code></td>
+        </tr>
+        <tr>
+          <td><strong>4. Pritika</strong></td>
+          <td>AI-Powered Risk Forecasting & Gemini Intelligence</td>
+          <td><code>src/services/aiService.js</code>, <code>AIRecommendationsPage.jsx</code></td>
+        </tr>
+        <tr>
+          <td><strong>5. Aaraadhyaa</strong></td>
+          <td>Evacuation Routing Logistics & Multi-Channel Alerts</td>
+          <td><code>src/pages/EvacuationPlansPage.jsx</code>, <code>EmergencyAlertsPage.jsx</code></td>
+        </tr>
+        <tr>
+          <td><strong>6. Gautham</strong></td>
+          <td>Role-Based Access Control (RBAC) & Citizen Crowdsourcing</td>
+          <td><code>src/context/AuthContext.jsx</code>, <code>CitizenReportPage.jsx</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 1. DEEPAK PRAJAPATI -->
+    <div class="member-card card-deepak">
+      <div class="member-header">
+        <span class="member-name">1. Deepak Prajapati</span>
+        <span class="member-role">Database Architecture, Cloud Firestore & Offline Cache</span>
+      </div>
+      <span class="files-badge">Primary Files: src/services/firebase.js | src/services/storageHelper.js</span>
+      
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>NoSQL Document Schema:</strong> Modular Firestore collections for <code>disasters</code>, <code>sensors</code>, <code>sensorReadings</code>, <code>alerts</code>, <code>aiRecommendations</code>, and <code>citizenReports</code>.</li>
+        <li><strong>Persistent Offline Cache:</strong> When cell towers and internet connection drop during an emergency, Firestore keeps a multi-tab persistent cache in browser IndexedDB.</li>
+        <li><strong>Resilient Storage Fallback (<code>storageHelper.js</code>):</strong> Seamless local persistence ensuring zero data loss if network drops.</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/services/firebase.js
+db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Deepak:</strong>
+        "Good morning professors. I designed the Database Architecture, Cloud Firestore integration, and Offline Resilience. In natural disasters, communication towers frequently collapse. To guarantee uninterrupted operations, I implemented Firestore's multi-tab offline persistence alongside a local cache fallback. Our NoSQL schema allows instantaneous real-time updates between officers and field responders with zero data loss."
+      </div>
+    </div>
+
+    <!-- 2. SAHASTHRA -->
+    <div class="member-card card-sahasthra">
+      <div class="member-header">
+        <span class="member-name">2. Sahasthra</span>
+        <span class="member-role">Tactical Command Center & GIS Hazard Mapping</span>
+      </div>
+      <span class="files-badge">Primary Files: src/pages/DashboardPage.jsx | src/components/map/DisasterMap.jsx</span>
+
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>Executive KPI Analytics:</strong> Aggregates live numbers for active hazards, abnormal sensors, available shelter capacity, and pending AI verifications.</li>
+        <li><strong>Leaflet Geospatial Map:</strong> Renders real-time hazard radius circles with color-coded severity (Critical in Red, Moderate in Amber) and safe evacuation points.</li>
+        <li><strong>Reactive Event Model:</strong> Listens to telemetry updates without requiring full page refreshes.</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/components/map/DisasterMap.jsx
+&lt;Circle
+  center={[disaster.latitude, disaster.longitude]}
+  radius={disaster.radiusKm * 1000}
+  pathOptions={{
+    color: disaster.severity === "critical" ? "#ef4444" : "#f59e0b",
+    fillColor: disaster.severity === "critical" ? "#ef4444" : "#f59e0b",
+    fillOpacity: 0.25
+  }}
+&gt;
+  &lt;Popup&gt;{disaster.title} - Severity: {disaster.severity.toUpperCase()}&lt;/Popup&gt;
+&lt;/Circle&gt;</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Sahasthra:</strong>
+        "I developed the Tactical Command Center and GIS Hazard Radar. Emergency officers require split-second situational awareness. Using Leaflet and OpenStreetMap, we render high-contrast geospatial circles mapping impact zones based on live telemetry and calculated evacuation radii."
+      </div>
+    </div>
+
+    <!-- 3. NISHANTH -->
+    <div class="member-card card-nishanth">
+      <div class="member-header">
+        <span class="member-name">3. Nishanth</span>
+        <span class="member-role">IoT Sensor Telemetry Grid & Open-Meteo REST APIs</span>
+      </div>
+      <span class="files-badge">Primary Files: src/services/sensorService.js | src/pages/SensorMonitoringPage.jsx</span>
+
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>IoT Telemetry Grid:</strong> Real-time monitoring of hydrological gauges, Doppler rain meters, marine anemometers, and seismic sensors.</li>
+        <li><strong>Automated Anomaly Detection:</strong> Differentiates valid high readings from anomalous equipment glitches (e.g., river surge &gt; 15m).</li>
+        <li><strong>Live Open-Meteo Integration:</strong> Real-time HTTP queries fetching global river discharge (<code>m³/s</code>) and atmospheric temperatures (<code>°C</code>).</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/services/sensorService.js
+async fetchLiveOpenMeteoFlood(latitude = 59.91, longitude = 10.75) {
+  const url = `https://flood-api.open-meteo.com/v1/flood?latitude=${latitude}&longitude=${longitude}&daily=river_discharge`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const currentVal = data.daily?.river_discharge[0];
+
+  return await this.ingestReading({
+    sensorId: "sensor-hyd-01",
+    sensorName: "Live River Basin (Open-Meteo)",
+    type: "water_level",
+    value: Number(currentVal.toFixed(2)),
+    unit: data.daily_units?.river_discharge || "m³/s"
+  });
+}</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Nishanth:</strong>
+        "I was responsible for the IoT Sensor Subsystem and external meteorological integrations. We monitor real-time hydrological and seismic readings. Furthermore, we integrated Open-Meteo's live global APIs for live river discharge and atmospheric temperatures to validate hazard trends against official international feeds."
+      </div>
+    </div>
+
+    <!-- 4. PRITIKA -->
+    <div class="member-card card-pritika">
+      <div class="member-header">
+        <span class="member-name">4. Pritika</span>
+        <span class="member-role">AI-Powered Risk Forecasting & Gemini Intelligence</span>
+      </div>
+      <span class="files-badge">Primary Files: src/services/aiService.js | src/pages/AIRecommendationsPage.jsx</span>
+
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>Generative AI Hazard Modeling:</strong> Prompts structured for the Google Gemini API correlating hazard radius, sensor spikes, and reports.</li>
+        <li><strong>Casualty & Infrastructure Estimation:</strong> AI predicts risk ratings and outputs tactical action recommendations.</li>
+        <li><strong>Human-in-the-Loop Safeguard:</strong> Recommendations remain in a 'Pending' queue until an Emergency Officer explicitly reviews and approves them.</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/services/aiService.js
+const prompt = `You are an expert Meteorological and Disaster Response AI. Analyze the following emergency telemetry:
+Disaster Type: ${disasterEvent.type}
+Title: ${disasterEvent.title}
+Affected Radius: ${disasterEvent.radiusKm} km
+Sensor Readings: ${JSON.stringify(sensorReadings)}
+Provide structured JSON with casualty risk score, infrastructure risk, and priority actions.`;</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Pritika:</strong>
+        "I handled AI Risk Forecasting and Google Gemini integration. During severe crises, officers face cognitive overload. Our AI engine correlates real-time telemetry to forecast impact severity and recommend priority deployments, while strictly requiring verified officer approval before dispatch."
+      </div>
+    </div>
+
+    <!-- 5. AARAADHYAA -->
+    <div class="member-card card-aaraadhyaa">
+      <div class="member-header">
+        <span class="member-name">5. Aaraadhyaa</span>
+        <span class="member-role">Evacuation Routing Logistics & Multi-Channel Alerts</span>
+      </div>
+      <span class="files-badge">Primary Files: src/pages/EvacuationPlansPage.jsx | src/pages/EmergencyAlertsPage.jsx</span>
+
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>Shelter Logistics & Capacity:</strong> Real-time tracking of safe shelters, current evacuee counts, medical points, and remaining capacity.</li>
+        <li><strong>Multi-Channel Broadcast:</strong> Officers broadcast regional alerts across Push, SMS, and Radio pipelines.</li>
+        <li><strong>Firebase Cloud Messaging (FCM):</strong> Browser push notifications powered by service workers (<code>firebase-messaging-sw.js</code>).</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/services/alertService.js
+async createAlert({ title, message, severity, affectedAreas, channels }) {
+  const newAlert = {
+    id: `alert-${Date.now()}`,
+    title,
+    message,
+    severity,
+    affectedAreas: Array.isArray(affectedAreas) ? affectedAreas : [affectedAreas],
+    channels: channels || ["push", "sms", "radio"],
+    status: "active",
+    createdAt: new Date().toISOString()
+  };
+  return await this.saveAlert(newAlert);
+}</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Aaraadhyaa:</strong>
+        "I developed Evacuation Routing and the Emergency Alert Broadcast system. We prevent overcrowding by monitoring shelter occupancy in real-time. When officers initiate an evacuation, alerts are dispatched across multi-channel communication pipelines with clear regional instructions."
+      </div>
+    </div>
+
+    <!-- 6. GAUTHAM -->
+    <div class="member-card card-gautham">
+      <div class="member-header">
+        <span class="member-name">6. Gautham</span>
+        <span class="member-role">Role-Based Access Control (RBAC) & Citizen Crowdsourcing</span>
+      </div>
+      <span class="files-badge">Primary Files: src/context/AuthContext.jsx | src/pages/CitizenReportPage.jsx</span>
+
+      <h3>Key Concepts to Explain:</h3>
+      <ul>
+        <li><strong>Role-Based Access Control (RBAC):</strong> Discrete views and authorizations for <code>Citizen</code>, <code>Emergency Officer</code>, <code>Field Agent</code>, and <code>Admin</code>.</li>
+        <li><strong>Citizen Crowdsourcing:</strong> Citizens report localized flooding, fires, or structural collapse with GPS coordinates and images.</li>
+        <li><strong>Verification Pipeline:</strong> Field responders review raw reports before escalating them to active hazard statuses.</li>
+      </ul>
+
+      <h3>Code to Highlight:</h3>
+      <pre>// src/context/AuthContext.jsx
+export const hasRole = (allowedRoles = []) => {
+  if (!currentUser) return false;
+  if (currentUser.role === "admin") return true; // Superuser override
+  return allowedRoles.includes(currentUser.role);
+};</pre>
+
+      <div class="speech-box">
+        <strong>Speaking Script for Gautham:</strong>
+        "I implemented User Authentication, Role-Based Access Control, and Citizen Crowdsourcing. Strict RBAC ensures citizens access public safety guides and incident reporting, while only authorized personnel control tactical operations. Field responders can review and verify citizen reports on the ground."
+      </div>
+    </div>
+
+    <!-- TIPS SECTION -->
+    <div class="tips-section">
+      <h2 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: #fff;">💡 Practical Demonstration Tips for the Presentation:</h2>
+      <ul>
+        <li><strong>Show Role Switching:</strong> In the top navigation bar, click the Role dropdown and switch between <em>Citizen</em> and <em>Emergency Officer</em> to show dynamic permission changes.</li>
+        <li><strong>Show Live API Queries:</strong> Navigate to the <em>Sensor Telemetry</em> page and click <em>"Sync River Flood API"</em> or <em>"Sync Weather API"</em> to demonstrate live Open-Meteo REST queries.</li>
+        <li><strong>Highlight Offline Resilience:</strong> Point out how Deepak's database design keeps the app working locally without network errors.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
