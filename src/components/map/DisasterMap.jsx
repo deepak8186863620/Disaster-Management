@@ -398,8 +398,74 @@ export const DisasterMap = ({
     <div className={`relative w-full ${height} rounded-2xl overflow-hidden border border-slate-800 shadow-xl`}>
       <div ref={mapContainerRef} className="w-full h-full z-10" />
 
+      {/* Floating Locate Me Button */}
+      {showLocateButton && (
+        <button
+          onClick={handleLocateClick}
+          title={tracking ? "Stop live tracking" : locating ? "Acquiring GPS signal…" : "Track my real-time location"}
+          style={{ zIndex: 900 }}
+          className={[
+            "absolute top-3 right-3",
+            "flex items-center gap-2",
+            "px-3 py-2 rounded-xl",
+            "text-[11px] font-bold",
+            "border shadow-xl",
+            "transition-all duration-200",
+            "backdrop-blur-md",
+            tracking
+              ? "bg-blue-600 border-blue-400 text-white shadow-blue-600/40 hover:bg-blue-700"
+              : locating
+              ? "bg-amber-500/90 border-amber-400 text-white shadow-amber-500/40 cursor-wait"
+              : "bg-slate-950/85 border-slate-700 text-slate-200 hover:bg-slate-800 hover:border-slate-500"
+          ].join(" ")}
+        >
+          <span
+            className={[
+              "w-2 h-2 rounded-full shrink-0",
+              tracking ? "bg-white animate-pulse" : locating ? "bg-amber-200 animate-bounce" : "bg-slate-400"
+            ].join(" ")}
+          />
+          <span>
+            {tracking ? "Live ✕ Stop" : locating ? "Locating…" : "📍 Locate Me"}
+          </span>
+        </button>
+      )}
+
+      {/* Live Coordinates HUD */}
+      {userCoords && tracking && (
+        <div
+          style={{ zIndex: 900 }}
+          className="absolute top-3 left-1/2 -translate-x-1/2 bg-blue-950/90 backdrop-blur-md border border-blue-500/50 rounded-xl px-3 py-1.5 text-[11px] font-mono text-blue-200 shadow-xl flex items-center gap-2 whitespace-nowrap pointer-events-none"
+        >
+          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shrink-0" />
+          <span className="text-blue-300 font-bold">YOU</span>
+          <span>{userCoords.lat}, {userCoords.lng}</span>
+          <span className="text-blue-400/70">±{userCoords.accuracy}m</span>
+        </div>
+      )}
+
+      {/* GPS Error Banner */}
+      {gpsError && (
+        <div
+          style={{ zIndex: 900 }}
+          className="absolute top-3 left-3 right-14 bg-rose-950/90 border border-rose-500/50 rounded-xl px-3 py-2 text-[11px] text-rose-200 shadow-xl backdrop-blur-md flex items-center gap-2"
+        >
+          <span>⚠️</span>
+          <span className="truncate">{gpsError}</span>
+          <button
+            onClick={() => setGpsError(null)}
+            className="ml-auto shrink-0 text-rose-400 hover:text-rose-200"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Floating Map Legend */}
-      <div className="absolute bottom-3 left-3 z-20 bg-slate-950/85 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-800 text-[11px] flex flex-wrap items-center gap-3 shadow-xl">
+      <div
+        style={{ zIndex: 900 }}
+        className="absolute bottom-3 left-3 bg-slate-950/85 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-800 text-[11px] flex flex-wrap items-center gap-3 shadow-xl"
+      >
         <div className="flex items-center gap-1.5">
           <span>🌊</span>
           <span className="text-cyan-400 font-medium">Flood</span>
@@ -419,6 +485,10 @@ export const DisasterMap = ({
         <div className="flex items-center gap-1.5">
           <span>🏠</span>
           <span className="text-indigo-400 font-medium">Shelter</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span style={{width:10,height:10,borderRadius:"50%",background:"#3b82f6",border:"2px solid #fff",display:"inline-block",flexShrink:0}} />
+          <span className="text-blue-400 font-medium">You</span>
         </div>
       </div>
     </div>
