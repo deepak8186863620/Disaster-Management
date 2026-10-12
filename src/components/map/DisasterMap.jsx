@@ -116,6 +116,17 @@ export const DisasterMap = ({
   const layerGroupRef = useRef(null);
   const pickerMarkerRef = useRef(null);
 
+  // Live location refs (kept in refs to avoid extraneous re-renders)
+  const userMarkerRef = useRef(null);
+  const accuracyCircleRef = useRef(null);
+  const watchIdRef = useRef(null);
+
+  // UI state for locate and GPS tracking status
+  const [locating, setLocating] = useState(false);
+  const [tracking, setTracking] = useState(false);
+  const [gpsError, setGpsError] = useState(null);
+  const [userCoords, setUserCoords] = useState(null);
+
   // Initialize Map
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -146,6 +157,10 @@ export const DisasterMap = ({
     }
 
     return () => {
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
+      }
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -252,6 +267,132 @@ export const DisasterMap = ({
         .openPopup();
     }
   }, [disasters, sensors, shelters, selectedLocation]);
+
+  // ── Live GPS Tracking Callbacks ──────────────────────────────────────────
+
+  const placeOrUpdateUserMarker = useCallback((lat, lng, accuracy) => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    setUserCoords({ lat: lat.toFixed(5), lng: lng.toFixed(5), accuracy: Math.round(accuracy) });
+
+    if (accuracyCircleRef.current) {
+      accuracyCircleRef.current.setLatLng([lat, lng]);
+      accuracyCircleRef.current.setRadius(accuracy);
+    } else {
+      accuracyCircleRef.current = L.circle([lat, lng], {
+        radius: accuracy,
+        color: "#3b82f6",
+        fillColor: "#3b82f6",
+        fillOpacity: 0.12,
+        weight: 1.5,
+        dashArray: "3, 5",
+      }).addTo(map);
+    }
+
+    if (userMarkerRef.current) {
+      userMarkerRef.current.setLatLng([lat, lng]);
+    } else {
+      userMarkerRef.current = L.marker(
+        [lat, lng],
+        { icon: createUserLocationIcon(), zIndexOffset: 1000 }
+      )
+        .addTo(map)
+        .bindPopup(`
+          <div class="p-2 text-slate-900 text-xs space-y-1">
+            <p class="font-bold text-blue-700">📍 Your Live Location</p>
+            <p class="font-mono text-slate-700">${lat.toFixed(5)}, ${lng.toFixed(5)}</p>
+            <p class="text-slate-500">Accuracy: ±${Math.round(accuracy)} m</p>
+          </div>
+        `);
+    }
+  }, []);
+
+  const startTracking = useCallback(() => {
+    if (!("geolocation" in navigator)) {
+      setGpsError("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    setLocating(true);
+    setGpsError(null);
+
+    // Quick one-time fix first so map pans immediately
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng, accuracy } = pos.coords;
+        placeOrUpdateUserMarker(lat, lng, accuracy);
+        mapInstanceRef.current?.flyTo([lat, lng], Math.max(mapInstanceRef.current.getZoom(), 14), {
+          animate: true,
+          duration: 1.2
+        });
+        setLocating(false);
+        setTracking(true);
+      },
+      (err) => {
+        setLocating(false);
+        setGpsError(err.message || "Could not get location.");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+
+    // Continuous watch for real-time updates
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+    }
+    watchIdRef.current = navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng, accuracy } = pos.coords;
+        placeOrUpdateUserMarker(lat, lng, accuracy);
+        setLocating(false);
+        setTracking(true);
+        setGpsError(null);
+
+        if (userMarkerRef.current) {
+          userMarkerRef.current.setPopupContent(`
+            <div class="p-2 text-slate-900 text-xs space-y-1">
+              <p class="font-bold text-blue-700">📍 Your Live Location</p>
+              <p class="font-mono text-slate-700">${lat.toFixed(5)}, ${lng.toFixed(5)}</p>
+              <p class="text-slate-500">Accuracy: ±${Math.round(accuracy)} m</p>
+            </div>
+          `);
+        }
+      },
+      (err) => {
+        setTracking(false);
+        setLocating(false);
+        setGpsError(err.message || "GPS signal lost.");
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 2000 }
+    );
+  }, [placeOrUpdateUserMarker]);
+
+  const stopTracking = useCallback(() => {
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+      watchIdRef.current = null;
+    }
+    if (userMarkerRef.current) {
+      userMarkerRef.current.remove();
+      userMarkerRef.current = null;
+    }
+    if (accuracyCircleRef.current) {
+      accuracyCircleRef.current.remove();
+      accuracyCircleRef.current = null;
+    }
+    setTracking(false);
+    setLocating(false);
+    setUserCoords(null);
+    setGpsError(null);
+  }, []);
+
+  const handleLocateClick = useCallback(() => {
+    if (tracking || locating) {
+      stopTracking();
+    } else {
+      startTracking();
+    }
+  }, [tracking, locating, startTracking, stopTracking]);
 
   return (
     <div className={`relative w-full ${height} rounded-2xl overflow-hidden border border-slate-800 shadow-xl`}>
