@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -57,7 +57,8 @@ export const DisasterMap = ({
   onLocationSelect = null,
   center = [19.0760, 72.8777], // Mumbai default coordinates for seed data
   zoom = 11,
-  height = "h-[450px]"
+  height = "h-[450px]",
+  showLocateButton = true,
 }) => {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
