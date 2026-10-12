@@ -49,6 +49,57 @@ const pickerIcon = createSvgIcon(`
   </div>
 `);
 
+// ── Live "You Are Here" GPS marker with double pulse ring animation ──────────
+const createUserLocationIcon = () =>
+  L.divIcon({
+    html: `
+      <div style="position:relative;width:24px;height:24px;">
+        <div style="
+          position:absolute;top:50%;left:50%;
+          width:40px;height:40px;
+          margin:-20px 0 0 -20px;
+          border-radius:50%;
+          background:rgba(59,130,246,0.22);
+          animation:userPing 1.8s cubic-bezier(0,0,0.2,1) infinite;
+        "></div>
+        <div style="
+          position:absolute;top:50%;left:50%;
+          width:28px;height:28px;
+          margin:-14px 0 0 -14px;
+          border-radius:50%;
+          background:rgba(59,130,246,0.35);
+          animation:userPing 1.8s cubic-bezier(0,0,0.2,1) infinite;
+          animation-delay:0.4s;
+        "></div>
+        <div style="
+          width:24px;height:24px;
+          border-radius:50%;
+          background:#3b82f6;
+          border:3px solid #ffffff;
+          box-shadow:0 0 14px rgba(59,130,246,0.85);
+        "></div>
+      </div>
+    `,
+    className: "",
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, -14]
+  });
+
+// Inject pulse keyframes once into document head (safe to call multiple times)
+if (typeof document !== "undefined" && !document.getElementById("user-location-keyframes")) {
+  const style = document.createElement("style");
+  style.id = "user-location-keyframes";
+  style.textContent = `
+    @keyframes userPing {
+      0%   { transform: scale(0.7); opacity: 0.9; }
+      70%  { transform: scale(1.9); opacity: 0; }
+      100% { transform: scale(0.7); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 export const DisasterMap = ({
   disasters = [],
   sensors = [],
